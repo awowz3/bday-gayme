@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
 <title>Birthday Game</title>
@@ -22,7 +22,7 @@ body {
 }
 
 img {
-  width: 180px;
+  width: 220px;
   display: block;
   margin: auto;
 }
@@ -48,10 +48,27 @@ input {
   50% { transform: translate(-2px,-2px); }
   100% { transform: translate(2px,2px); }
 }
+
+/* 💰 bottom message */
+#robuxBar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: black;
+  color: white;
+  font-size: 18px;
+  padding: 10px;
+  text-align: center;
+  font-family: Comic Sans MS;
+}
 </style>
 </head>
 
 <body>
+
+<!-- 💰 ALWAYS ON SCREEN -->
+<div id="robuxBar">ok make a gamepass for 1k robux now!</div>
 
 <div id="box">
 
@@ -76,16 +93,16 @@ let age = "";
 
 start();
 
-/* ---------------- INTRO ---------------- */
+/* ---------------- START ---------------- */
 
 function start() {
-  char.src = "";
   speaker.innerText = "Gubby";
+  char.src = "gubby.png";
 
   text.innerHTML =
   "HAPPY BIRTHDAY PERSON!<br><br>" +
   "my name is Itzmegubbehxd!<br>" +
-  "and i am ur host or whatever idfk<br><br>" +
+  "and I am your host or whatever idfk<br><br>" +
   "what's your name?";
 
   choices.innerHTML = `
@@ -101,8 +118,7 @@ function setName() {
 
   text.innerHTML =
   "oh wow! " + playerName + "<br>" +
-  "thats a shitty fuck name!<br><br>" +
-  "anyways you will answer questions for your birthday PRIZE!!!!!<br><br>" +
+  "that's a shitty fuck name!<br><br>" +
   "are you excited????";
 
   choices.innerHTML = `
@@ -123,6 +139,7 @@ function setName() {
 
 function go() {
   speaker.innerText = "Partygoob";
+  char.src = "partygoob.png";
 
   text.innerHTML =
   "HI IM PARTYGOOB!!!<br><br>" +
@@ -140,10 +157,9 @@ function setAge() {
   age = document.getElementById("age").value || "?";
 
   text.innerHTML =
-  "oh wow! you're becoming old!<br>" +
-  "guess what that means!<br><br>" +
-  "you will have to have a j-j.... j-..<br><br>" +
-  "sorry. its my trigger word i cant really say it but you know what i mean ;-;";
+  "oh wow! you're becoming old!<br><br>" +
+  "guess what that means...<br><br>" +
+  "you will have to have a j-j... j-... sorry I can't say it ;-;";
 
   choices.innerHTML = `
     <button onclick="friend(true)">yes</button>
@@ -157,7 +173,7 @@ function friend(ok) {
   if(ok){
     text.innerHTML = "YAY!! BEST FRIENDS!!!!";
   } else {
-    text.innerHTML = "fuck you were becoming friends anyway";
+    text.innerHTML = "fine. we're friends anyway.";
   }
 
   choices.innerHTML = `
@@ -168,8 +184,7 @@ function friend(ok) {
 /* ---------------- COLOR ---------------- */
 
 function color() {
-  text.innerHTML =
-  "whats ur favourite color?";
+  text.innerHTML = "whats ur favourite color?";
 
   choices.innerHTML = `
     <button onclick="setColor('red')">red</button>
@@ -183,22 +198,22 @@ function setColor(c) {
   document.body.style.background = c;
 
   text.innerHTML =
-  "wow what a color! i love it!<br><br>" +
-  "because im gay ofc. heh maybe we could yk... mingle sometime soon";
+  "wow what a color! i love it!";
 
   choices.innerHTML = `
     <button onclick="cake()">continue</button>
   `;
 }
 
-/* ---------------- CAKE / END ---------------- */
+/* ---------------- CAKE ---------------- */
 
 function cake() {
   speaker.innerText = "Partygoob";
+  char.src = "cake.png";
 
   text.innerHTML =
-  "since were best friends now we should party!!!!!!!<br><br>" +
-  "heres a cake! 🎂<br><br>" +
+  "since we're best friends now we should party!!!!!!!<br><br>" +
+  "heres a cake 🎂<br><br>" +
   "would u like to party?";
 
   choices.innerHTML = `
@@ -211,6 +226,7 @@ function cake() {
 
 function party() {
   document.body.style.background = "pink";
+  char.src = "cake.png";
 
   text.innerHTML =
   "🎉 PARTY TIME 🎉<br><br>" +
@@ -223,8 +239,7 @@ function party() {
 function noParty() {
   document.body.classList.add("shake");
 
-  text.innerHTML =
-  "oh... ok...";
+  text.innerHTML = "oh... ok...";
 
   setTimeout(() => {
     ban();
@@ -232,25 +247,33 @@ function noParty() {
 }
 
 function ban() {
+  document.body.classList.remove("shake");
+  speaker.innerText = "BAN HAMMER";
+  char.src = "banhammer.png";
+
   text.innerHTML =
-  "BAN HAMMER APPEARS ⚠";
+  "⚠ BAN HAMMER APPEARS ⚠";
 
   choices.innerHTML = `
     <button onclick="banYes()">ban partygoob</button>
-    <button onclick="cow()">im a fat big cow</button>
+    <button onclick="cow()">im a fat cow now</button>
   `;
 }
 
-function banYes() {
-  document.body.classList.remove("shake");
-
-  document.body.innerHTML =
-  "<h1>💥 partygoob got bonked 💥<br><br>game over</h1>";
-}
-
+/* 🐄 UPDATED COW ENDING */
 function cow() {
   document.body.innerHTML =
-  "<h1>🐄 MOOOOOOOOOOOOOOO</h1>";
+  "<div style='text-align:center;font-family:Comic Sans MS;'>" +
+  "<h1>🐄 wow your a cow now</h1>" +
+  "<img src='fatcow.png' style='width:300px'>" +
+  "</div>" +
+  "<div id='robuxBar'>ok make a gamepass for 1k robux now!</div>";
+}
+
+function banYes() {
+  document.body.innerHTML =
+  "<h1>💥 Partygoob got BONKED 💥<br><br>game over</h1>" +
+  "<div id='robuxBar'>ok make a gamepass for 1k robux now!</div>";
 }
 </script>
 
