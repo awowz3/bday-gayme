@@ -3,64 +3,84 @@
 <head>
 <title>Birthday Game</title>
 
-<!-- 🎮 PIXEL FONT -->
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
 <style>
 body {
   font-family: 'Press Start 2P', monospace;
-  text-align: center;
-  background: #87ceeb;
   margin: 0;
+  background: #87ceeb;
+  overflow: hidden;
 }
 
-/* 🧾 FLASHCARD STYLE */
-#box {
-  background: white;
-  width: 700px;
-  margin: 40px auto;
-  padding: 25px;
-  border-radius: 10px;
-  border: 4px solid black;
-  box-shadow: 6px 6px 0px black;
-
-  max-height: 80vh;
-  overflow-y: auto;
+/* GAME SCREEN */
+#game {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
 }
 
-img {
-  width: 200px;
-  display: block;
-  margin: auto;
+/* CHARACTER */
+#char {
+  width: 220px;
+  position: absolute;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
   image-rendering: pixelated;
 }
 
-button {
-  font-family: 'Press Start 2P', monospace;
+/* TEXTBOX (POKÉMON STYLE) */
+#textbox {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 180px;
+  background: white;
+  border-top: 6px solid black;
+  box-shadow: 0 -6px 0 black;
+  padding: 15px;
+  box-sizing: border-box;
+}
+
+/* SPEAKER NAME */
+#speaker {
   font-size: 12px;
-  margin: 8px;
-  padding: 10px;
-  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+/* TEXT */
+#text {
+  font-size: 10px;
+  line-height: 18px;
+  white-space: pre-wrap;
+}
+
+/* CHOICES */
+#choices {
+  margin-top: 10px;
+}
+
+button, input {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
   border: 3px solid black;
   background: white;
-  box-shadow: 3px 3px 0px black;
+  padding: 8px;
+  margin: 4px;
+  box-shadow: 3px 3px 0 black;
+  cursor: pointer;
 }
 
 button:active {
   transform: translate(2px,2px);
-  box-shadow: 1px 1px 0px black;
+  box-shadow: 1px 1px 0 black;
 }
 
-input {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 12px;
-  padding: 8px;
-  border: 3px solid black;
-}
-
-/* shake effect */
+/* shake */
 .shake {
-  animation: shake 0.2s infinite;
+  animation: shake 0.15s infinite;
 }
 
 @keyframes shake {
@@ -69,16 +89,15 @@ input {
   100% { transform: translate(2px,2px); }
 }
 
-/* 💰 bottom bar */
+/* robux bar */
 .robuxBar {
   position: fixed;
   bottom: 0;
-  left: 0;
   width: 100%;
   background: black;
   color: white;
   font-size: 10px;
-  padding: 10px;
+  padding: 8px;
   text-align: center;
 }
 </style>
@@ -86,38 +105,69 @@ input {
 
 <body>
 
-<div id="box">
-
-<img id="char" src="">
-
-<h2 id="speaker">Gubby</h2>
-
-<p id="text"></p>
-
-<div id="choices"></div>
-
+<div id="game">
+  <img id="char" src="">
+  
+  <div id="textbox">
+    <div id="speaker">Gubby</div>
+    <div id="text"></div>
+    <div id="choices"></div>
+  </div>
 </div>
+
+<audio id="beep" src="https://www.myinstants.com/media/sounds/button.mp3"></audio>
 
 <script>
 let char = document.getElementById("char");
 let text = document.getElementById("text");
 let choices = document.getElementById("choices");
 let speaker = document.getElementById("speaker");
+let beep = document.getElementById("beep");
 
-/* 🔊 SOUND */
-let beep = new Audio("https://www.myinstants.com/media/sounds/button.mp3");
+let playerName = "";
+let age = "";
+let typing = false;
 
-function playSound(){
+/* SOUND */
+function playBeep(){
   beep.currentTime = 0;
   beep.play();
 }
 
-let playerName = "";
-let age = "";
+/* BUTTON SOUND WRAPPER */
+function clickSound(fn){
+  return function(){
+    playBeep();
+    fn();
+  }
+}
 
+/* TYPEWRITER (POKÉMON STYLE) */
+function say(t){
+  beep.currentTime = 0;
+  let i = 0;
+  text.innerText = "";
+  typing = true;
+
+  let interval = setInterval(() => {
+    text.innerText += t[i];
+
+    // beep per character (light, not spammy)
+    if(t[i] !== " " && t[i] !== "\n") {
+      beep.currentTime = 0;
+      beep.play();
+    }
+
+    i++;
+    if(i >= t.length){
+      clearInterval(interval);
+      typing = false;
+    }
+  }, 25);
+}
+
+/* START */
 start();
-
-/* ---------------- START ---------------- */
 
 function start() {
   speaker.innerText = "Gubby";
@@ -135,15 +185,10 @@ function start() {
   `;
 }
 
-/* 🔊 TEXT FUNCTION */
-function say(t){
-  playSound();
-  text.innerText = t;
-}
-
-/* ---------------- NAME ---------------- */
-
+/* NAME */
 function setName() {
+  playBeep();
+
   playerName = document.getElementById("name").value || "you";
 
   say(
@@ -160,14 +205,14 @@ function setName() {
   let no = document.getElementById("noBtn");
 
   no.addEventListener("mouseover", () => {
+    playBeep();
     no.style.position = "absolute";
     no.style.left = Math.random() * 500 + "px";
     no.style.top = Math.random() * 300 + "px";
   });
 }
 
-/* ---------------- PARTYGOOB ---------------- */
-
+/* PARTYGOOB */
 function go() {
   speaker.innerText = "Partygoob";
   char.src = "partygoob.png";
@@ -180,9 +225,10 @@ function go() {
   `;
 }
 
-/* ---------------- AGE ---------------- */
-
+/* AGE */
 function setAge() {
+  playBeep();
+
   age = document.getElementById("age").value || "?";
 
   say(
@@ -197,9 +243,10 @@ function setAge() {
   `;
 }
 
-/* ---------------- FRIEND ---------------- */
-
+/* FRIEND */
 function friend(ok) {
+  playBeep();
+
   say(ok ? "YAY!! BEST FRIENDS!!!!" : "fuck you we're friends anyway.");
 
   choices.innerHTML = `
@@ -207,9 +254,10 @@ function friend(ok) {
   `;
 }
 
-/* ---------------- COLOR ---------------- */
-
+/* COLOR */
 function color() {
+  playBeep();
+
   say("whats your favourite color?");
 
   choices.innerHTML = `
@@ -221,6 +269,8 @@ function color() {
 }
 
 function setColor(c) {
+  playBeep();
+
   document.body.style.background = c;
 
   say("wow such a gay color! lIKE Me :3...wink");
@@ -230,15 +280,14 @@ function setColor(c) {
   `;
 }
 
-/* ---------------- CAKE ---------------- */
-
+/* CAKE */
 function cake() {
   speaker.innerText = "Partygoob";
   char.src = "cake.png";
 
   say(
   "we should party!!!!!!!\n\n" +
-  "heres a cake hahha 🎂\n\n" +
+  "heres a cake 🎂\n\n" +
   "party?"
   );
 
@@ -248,9 +297,10 @@ function cake() {
   `;
 }
 
-/* ---------------- ENDINGS ---------------- */
-
+/* ENDINGS */
 function party() {
+  playBeep();
+
   document.body.style.background = "pink";
 
   document.body.innerHTML =
@@ -260,14 +310,18 @@ function party() {
 }
 
 function noParty() {
+  playBeep();
+
   document.body.classList.add("shake");
-  say("oh ok...");
+
+  say("oh... ok...");
 
   setTimeout(() => ban(), 1000);
 }
 
 function ban() {
   document.body.classList.remove("shake");
+
   speaker.innerText = "BAN HAMMER";
   char.src = "banhammer.png";
 
@@ -279,8 +333,10 @@ function ban() {
   `;
 }
 
-/* 🐄 COW ENDING */
+/* COW */
 function cow() {
+  playBeep();
+
   document.body.innerHTML =
   "<h1>🐄 wow your a cow now</h1>" +
   "<img src='fatcow.png'>" +
@@ -288,6 +344,8 @@ function cow() {
 }
 
 function banYes() {
+  playBeep();
+
   document.body.innerHTML =
   "<h1>💥 Partygoob got BONKED XD 💥</h1>" +
   "<div class='robuxBar'>ok make a gamepass for 1k robux now!</div>";
@@ -296,3 +354,4 @@ function banYes() {
 
 </body>
 </html>
+
