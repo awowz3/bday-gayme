@@ -1,6 +1,236 @@
 <!DOCTYPE html>
 <html>
+<head>
+<title>Birthday Game</title>
+
+<style>
+body {
+  font-family: Comic Sans MS;
+  text-align: center;
+  background: skyblue;
+  transition: 1s;
+  overflow: hidden;
+}
+
+#box {
+  background: white;
+  width: 700px;
+  margin: 40px auto;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 0 20px black;
+}
+
+img {
+  width: 180px;
+  display: block;
+  margin: auto;
+}
+
+button {
+  font-size: 18px;
+  margin: 8px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+input {
+  font-size: 18px;
+  padding: 10px;
+}
+
+.shake {
+  animation: shake 0.3s infinite;
+}
+
+@keyframes shake {
+  0% { transform: translate(2px,2px); }
+  50% { transform: translate(-2px,-2px); }
+  100% { transform: translate(2px,2px); }
+}
+</style>
+</head>
+
 <body>
-<h1>IT WORKS 🎉</h1>
+
+<div id="box">
+
+<img id="char" src="">
+
+<h2 id="speaker">Gubby</h2>
+
+<p id="text"></p>
+
+<div id="choices"></div>
+
+</div>
+
+<script>
+let char = document.getElementById("char");
+let text = document.getElementById("text");
+let choices = document.getElementById("choices");
+let speaker = document.getElementById("speaker");
+
+let playerName = "";
+let age = "";
+
+start();
+
+function start() {
+  char.src = "";
+  speaker.innerText = "Gubby";
+
+  text.innerHTML =
+  "HAPPY BIRTHDAY!!!<br><br>" +
+  "I am Itzmegubbehxd 😈<br><br>" +
+  "What is your name?";
+
+  choices.innerHTML = `
+    <input id="name">
+    <button onclick="setName()">Continue</button>
+  `;
+}
+
+function setName() {
+  playerName = document.getElementById("name").value || "idiot";
+
+  text.innerHTML =
+  "Oh wow...<br>" + playerName + " is a horrible name.<br><br>" +
+  "ARE YOU EXCITED???";
+
+  choices.innerHTML = `
+    <button onclick="go()">YES</button>
+    <button id="noBtn">NO</button>
+  `;
+
+  let no = document.getElementById("noBtn");
+
+  no.addEventListener("mouseover", () => {
+    no.style.position = "absolute";
+    no.style.left = Math.random() * 500 + "px";
+    no.style.top = Math.random() * 300 + "px";
+  });
+}
+
+function go() {
+  speaker.innerText = "Partygoob";
+  char.src = "";
+
+  text.innerHTML =
+  "HI I AM PARTYGOOB!!!<br><br>" +
+  "How old are you turning?";
+
+  choices.innerHTML = `
+    <input id="age">
+    <button onclick="setAge()">Continue</button>
+  `;
+}
+
+function setAge() {
+  age = document.getElementById("age").value;
+
+  text.innerHTML =
+  "Wow... " + age + " years of disappointment.<br><br>" +
+  "Wanna be friends?";
+
+  choices.innerHTML = `
+    <button onclick="friend(true)">YES</button>
+    <button onclick="friend(false)">NO</button>
+  `;
+}
+
+function friend(ok) {
+  if(ok){
+    text.innerHTML = "YAY BEST FRIENDS!!! 🎉";
+  } else {
+    text.innerHTML = "too bad. we're friends anyway.";
+  }
+
+  choices.innerHTML = `
+    <button onclick="color()">Continue</button>
+  `;
+}
+
+function color() {
+  text.innerHTML = "Pick a color.";
+  choices.innerHTML = `
+    <button onclick="setColor('red')">Red</button>
+    <button onclick="setColor('blue')">Blue</button>
+    <button onclick="setColor('green')">Green</button>
+    <button onclick="setColor('purple')">Purple</button>
+  `;
+}
+
+function setColor(c) {
+  document.body.style.background = c;
+
+  text.innerHTML =
+  "wow.<br>" +
+  "that color is kinda... slay tbh.";
+
+  choices.innerHTML = `
+    <button onclick="cakeScene()">Continue</button>
+  `;
+}
+
+function cakeScene() {
+  text.innerHTML =
+  "🎂 PARTYGOOB IS HAPPY 🎂<br><br>" +
+  "Since we're best friends... we should PARTY!!!!<br>" +
+  "Here's a cake!";
+
+  choices.innerHTML = `
+    <button onclick="party()">YES PARTY</button>
+    <button onclick="noParty()">NO</button>
+  `;
+}
+
+function party() {
+  document.body.style.background = "pink";
+
+  text.innerHTML =
+  "🎉🎉 PARTY TIME 🎉🎉<br><br>" +
+  "Happy Birthday " + playerName + "!<br><br>" +
+  "ok time to give u ur robux...";
+
+  choices.innerHTML = `
+    <h2>make a gamepass for 1k robux pls</h2>
+  `;
+}
+
+function noParty() {
+  text.innerHTML =
+  "oh... ok...";
+
+  setTimeout(() => {
+    banHammer();
+  }, 1000);
+}
+
+function banHammer() {
+  document.body.classList.add("shake");
+
+  text.innerHTML =
+  "⚠ BAN HAMMER APPEARS ⚠";
+
+  choices.innerHTML = `
+    <button onclick="banYes()">BAN PARTYGOOB</button>
+    <button onclick="cow()">I'M A FAT BIG COW</button>
+  `;
+}
+
+function banYes() {
+  document.body.classList.remove("shake");
+
+  document.body.innerHTML =
+  "<h1>💥 Partygoob got BONKED 💥<br><br>Game Over</h1>";
+}
+
+function cow() {
+  document.body.innerHTML =
+  "<h1>🐄 MOOOOOOOOOOOOOO<br><br>you are now cow ending</h1>";
+}
+</script>
+
 </body>
 </html>
