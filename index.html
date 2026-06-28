@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html>
 <head>
 <title>Birthday Game</title>
@@ -76,31 +76,38 @@ let age = "";
 
 start();
 
+/* ---------------- INTRO ---------------- */
+
 function start() {
   char.src = "";
   speaker.innerText = "Gubby";
 
   text.innerHTML =
-  "HAPPY BIRTHDAY!!!<br><br>" +
-  "I am Itzmegubbehxd 😈<br><br>" +
-  "What is your name?";
+  "HAPPY BIRTHDAY PERSON!<br><br>" +
+  "my name is Itzmegubbehxd!<br>" +
+  "and i am ur host or whatever idfk<br><br>" +
+  "what's your name?";
 
   choices.innerHTML = `
     <input id="name">
-    <button onclick="setName()">Continue</button>
+    <button onclick="setName()">continue</button>
   `;
 }
 
+/* ---------------- NAME ---------------- */
+
 function setName() {
-  playerName = document.getElementById("name").value || "idiot";
+  playerName = document.getElementById("name").value || "you";
 
   text.innerHTML =
-  "Oh wow...<br>" + playerName + " is a horrible name.<br><br>" +
-  "ARE YOU EXCITED???";
+  "oh wow! " + playerName + "<br>" +
+  "thats a shitty fuck name!<br><br>" +
+  "anyways you will answer questions for your birthday PRIZE!!!!!<br><br>" +
+  "are you excited????";
 
   choices.innerHTML = `
-    <button onclick="go()">YES</button>
-    <button id="noBtn">NO</button>
+    <button onclick="go()">yes</button>
+    <button id="noBtn">no</button>
   `;
 
   let no = document.getElementById("noBtn");
@@ -112,52 +119,63 @@ function setName() {
   });
 }
 
+/* ---------------- PARTYGOOB ---------------- */
+
 function go() {
   speaker.innerText = "Partygoob";
-  char.src = "";
 
   text.innerHTML =
-  "HI I AM PARTYGOOB!!!<br><br>" +
-  "How old are you turning?";
+  "HI IM PARTYGOOB!!!<br><br>" +
+  "how old r u turning?";
 
   choices.innerHTML = `
     <input id="age">
-    <button onclick="setAge()">Continue</button>
+    <button onclick="setAge()">continue</button>
   `;
 }
+
+/* ---------------- AGE ---------------- */
 
 function setAge() {
-  age = document.getElementById("age").value;
+  age = document.getElementById("age").value || "?";
 
   text.innerHTML =
-  "Wow... " + age + " years of disappointment.<br><br>" +
-  "Wanna be friends?";
+  "oh wow! you're becoming old!<br>" +
+  "guess what that means!<br><br>" +
+  "you will have to have a j-j.... j-..<br><br>" +
+  "sorry. its my trigger word i cant really say it but you know what i mean ;-;";
 
   choices.innerHTML = `
-    <button onclick="friend(true)">YES</button>
-    <button onclick="friend(false)">NO</button>
+    <button onclick="friend(true)">yes</button>
+    <button onclick="friend(false)">no</button>
   `;
 }
+
+/* ---------------- FRIEND ---------------- */
 
 function friend(ok) {
   if(ok){
-    text.innerHTML = "YAY BEST FRIENDS!!! 🎉";
+    text.innerHTML = "YAY!! BEST FRIENDS!!!!";
   } else {
-    text.innerHTML = "too bad. we're friends anyway.";
+    text.innerHTML = "fuck you were becoming friends anyway";
   }
 
   choices.innerHTML = `
-    <button onclick="color()">Continue</button>
+    <button onclick="color()">continue</button>
   `;
 }
 
+/* ---------------- COLOR ---------------- */
+
 function color() {
-  text.innerHTML = "Pick a color.";
+  text.innerHTML =
+  "whats ur favourite color?";
+
   choices.innerHTML = `
-    <button onclick="setColor('red')">Red</button>
-    <button onclick="setColor('blue')">Blue</button>
-    <button onclick="setColor('green')">Green</button>
-    <button onclick="setColor('purple')">Purple</button>
+    <button onclick="setColor('red')">red</button>
+    <button onclick="setColor('blue')">blue</button>
+    <button onclick="setColor('green')">green</button>
+    <button onclick="setColor('purple')">purple</button>
   `;
 }
 
@@ -165,57 +183,61 @@ function setColor(c) {
   document.body.style.background = c;
 
   text.innerHTML =
-  "wow.<br>" +
-  "that color is kinda... slay tbh.";
+  "wow what a color! i love it!<br><br>" +
+  "because im gay ofc. heh maybe we could yk... mingle sometime soon";
 
   choices.innerHTML = `
-    <button onclick="cakeScene()">Continue</button>
+    <button onclick="cake()">continue</button>
   `;
 }
 
-function cakeScene() {
+/* ---------------- CAKE / END ---------------- */
+
+function cake() {
+  speaker.innerText = "Partygoob";
+
   text.innerHTML =
-  "🎂 PARTYGOOB IS HAPPY 🎂<br><br>" +
-  "Since we're best friends... we should PARTY!!!!<br>" +
-  "Here's a cake!";
+  "since were best friends now we should party!!!!!!!<br><br>" +
+  "heres a cake! 🎂<br><br>" +
+  "would u like to party?";
 
   choices.innerHTML = `
-    <button onclick="party()">YES PARTY</button>
-    <button onclick="noParty()">NO</button>
+    <button onclick="party()">yes</button>
+    <button onclick="noParty()">no</button>
   `;
 }
+
+/* ---------------- ENDINGS ---------------- */
 
 function party() {
   document.body.style.background = "pink";
 
   text.innerHTML =
-  "🎉🎉 PARTY TIME 🎉🎉<br><br>" +
-  "Happy Birthday " + playerName + "!<br><br>" +
-  "ok time to give u ur robux...";
+  "🎉 PARTY TIME 🎉<br><br>" +
+  "ok time to give u ur robux<br>" +
+  "make a gamepass for 1k robux pls";
 
-  choices.innerHTML = `
-    <h2>make a gamepass for 1k robux pls</h2>
-  `;
+  choices.innerHTML = `<h2>THE END</h2>`;
 }
 
 function noParty() {
+  document.body.classList.add("shake");
+
   text.innerHTML =
   "oh... ok...";
 
   setTimeout(() => {
-    banHammer();
+    ban();
   }, 1000);
 }
 
-function banHammer() {
-  document.body.classList.add("shake");
-
+function ban() {
   text.innerHTML =
-  "⚠ BAN HAMMER APPEARS ⚠";
+  "BAN HAMMER APPEARS ⚠";
 
   choices.innerHTML = `
-    <button onclick="banYes()">BAN PARTYGOOB</button>
-    <button onclick="cow()">I'M A FAT BIG COW</button>
+    <button onclick="banYes()">ban partygoob</button>
+    <button onclick="cow()">im a fat big cow</button>
   `;
 }
 
@@ -223,12 +245,12 @@ function banYes() {
   document.body.classList.remove("shake");
 
   document.body.innerHTML =
-  "<h1>💥 Partygoob got BONKED 💥<br><br>Game Over</h1>";
+  "<h1>💥 partygoob got bonked 💥<br><br>game over</h1>";
 }
 
 function cow() {
   document.body.innerHTML =
-  "<h1>🐄 MOOOOOOOOOOOOOO<br><br>you are now cow ending</h1>";
+  "<h1>🐄 MOOOOOOOOOOOOOOO</h1>";
 }
 </script>
 
