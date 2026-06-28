@@ -9,9 +9,9 @@ body {
   text-align: center;
   background: skyblue;
   transition: 1s;
-  overflow: hidden;
 }
 
+/* 🎮 GAME BOX (NOW SCROLLABLE) */
 #box {
   background: white;
   width: 700px;
@@ -19,6 +19,9 @@ body {
   padding: 20px;
   border-radius: 20px;
   box-shadow: 0 0 20px black;
+
+  max-height: 80vh;
+  overflow-y: auto;
 }
 
 img {
@@ -39,6 +42,7 @@ input {
   padding: 10px;
 }
 
+/* shake effect */
 .shake {
   animation: shake 0.3s infinite;
 }
@@ -49,8 +53,8 @@ input {
   100% { transform: translate(2px,2px); }
 }
 
-/* 💰 bottom message */
-#robuxBar {
+/* 💰 ENDING BAR ONLY */
+.robuxBar {
   position: fixed;
   bottom: 0;
   left: 0;
@@ -60,15 +64,11 @@ input {
   font-size: 18px;
   padding: 10px;
   text-align: center;
-  font-family: Comic Sans MS;
 }
 </style>
 </head>
 
 <body>
-
-<!-- 💰 ALWAYS ON SCREEN -->
-<div id="robuxBar">ok make a gamepass for 1k robux now!</div>
 
 <div id="box">
 
@@ -184,7 +184,7 @@ function friend(ok) {
 /* ---------------- COLOR ---------------- */
 
 function color() {
-  text.innerHTML = "whats ur favourite color?";
+  text.innerHTML = "whats your favourite color?";
 
   choices.innerHTML = `
     <button onclick="setColor('red')">red</button>
@@ -228,12 +228,10 @@ function party() {
   document.body.style.background = "pink";
   char.src = "cake.png";
 
-  text.innerHTML =
-  "🎉 PARTY TIME 🎉<br><br>" +
-  "ok time to give u ur robux<br>" +
-  "make a gamepass for 1k robux pls";
-
-  choices.innerHTML = `<h2>THE END</h2>`;
+  document.body.innerHTML =
+  "<h1>🎉 PARTY TIME 🎉</h1>" +
+  "<h2>make a gamepass for 1k robux pls</h2>" +
+  "<div class='robuxBar'>ok make a gamepass for 1k robux now!</div>";
 }
 
 function noParty() {
@@ -260,20 +258,18 @@ function ban() {
   `;
 }
 
-/* 🐄 UPDATED COW ENDING */
+/* 🐄 COW ENDING */
 function cow() {
   document.body.innerHTML =
-  "<div style='text-align:center;font-family:Comic Sans MS;'>" +
   "<h1>🐄 wow your a cow now</h1>" +
   "<img src='fatcow.png' style='width:300px'>" +
-  "</div>" +
-  "<div id='robuxBar'>ok make a gamepass for 1k robux now!</div>";
+  "<div class='robuxBar'>ok make a gamepass for 1k robux now!</div>";
 }
 
 function banYes() {
   document.body.innerHTML =
-  "<h1>💥 Partygoob got BONKED 💥<br><br>game over</h1>" +
-  "<div id='robuxBar'>ok make a gamepass for 1k robux now!</div>";
+  "<h1>💥 Partygoob got BONKED 💥</h1>" +
+  "<div class='robuxBar'>ok make a gamepass for 1k robux now!</div>";
 }
 </script>
 
