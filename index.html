@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html>
 <head>
 <title>Birthday Game</title>
@@ -13,14 +13,12 @@ body {
   overflow: hidden;
 }
 
-/* GAME SCREEN */
 #game {
   width: 100vw;
   height: 100vh;
   position: relative;
 }
 
-/* CHARACTER */
 #char {
   width: 220px;
   position: absolute;
@@ -30,7 +28,6 @@ body {
   image-rendering: pixelated;
 }
 
-/* TEXTBOX (POKÉMON STYLE) */
 #textbox {
   position: absolute;
   bottom: 0;
@@ -44,20 +41,17 @@ body {
   box-sizing: border-box;
 }
 
-/* SPEAKER NAME */
 #speaker {
   font-size: 12px;
   margin-bottom: 10px;
 }
 
-/* TEXT */
 #text {
   font-size: 10px;
   line-height: 18px;
   white-space: pre-wrap;
 }
 
-/* CHOICES */
 #choices {
   margin-top: 10px;
 }
@@ -78,7 +72,6 @@ button:active {
   box-shadow: 1px 1px 0 black;
 }
 
-/* shake */
 .shake {
   animation: shake 0.15s infinite;
 }
@@ -89,7 +82,6 @@ button:active {
   100% { transform: translate(2px,2px); }
 }
 
-/* robux bar */
 .robuxBar {
   position: fixed;
   bottom: 0;
@@ -115,23 +107,41 @@ button:active {
   </div>
 </div>
 
+<!-- POP SOUND (buttons) -->
 <audio id="beep" src="https://actions.google.com/sounds/v1/cartoon/pop.ogg"></audio>
-  
+
+<!-- TYPE SOUND (new, for dialogue) -->
+<audio id="typeBeep" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"></audio>
+
 <script>
 let char = document.getElementById("char");
 let text = document.getElementById("text");
 let choices = document.getElementById("choices");
 let speaker = document.getElementById("speaker");
 let beep = document.getElementById("beep");
+let typeBeep = document.getElementById("typeBeep");
 
 let playerName = "";
 let age = "";
 let typing = false;
 
-/* SOUND */
+/* POP SOUND (buttons) */
 function playBeep(){
+  beep.pause();
   beep.currentTime = 0;
   beep.play();
+}
+
+/* TYPE SOUND (fixed anti-spam) */
+let lastTypeSound = 0;
+function playTypeSound(){
+  const now = Date.now();
+  if(now - lastTypeSound < 40) return; // prevents machine-gun audio
+  lastTypeSound = now;
+
+  typeBeep.pause();
+  typeBeep.currentTime = 0;
+  typeBeep.play();
 }
 
 /* BUTTON SOUND WRAPPER */
@@ -142,9 +152,8 @@ function clickSound(fn){
   }
 }
 
-/* TYPEWRITER (POKÉMON STYLE) */
+/* TYPEWRITER */
 function say(t){
-  beep.currentTime = 0;
   let i = 0;
   text.innerText = "";
   typing = true;
@@ -152,10 +161,8 @@ function say(t){
   let interval = setInterval(() => {
     text.innerText += t[i];
 
-    // beep per character (light, not spammy)
     if(t[i] !== " " && t[i] !== "\n") {
-      beep.currentTime = 0;
-      beep.play();
+      playTypeSound();
     }
 
     i++;
@@ -185,7 +192,6 @@ function start() {
   `;
 }
 
-/* NAME */
 function setName() {
   playBeep();
 
@@ -212,7 +218,6 @@ function setName() {
   });
 }
 
-/* PARTYGOOB */
 function go() {
   speaker.innerText = "Partygoob";
   char.src = "partygoob.png";
@@ -225,7 +230,6 @@ function go() {
   `;
 }
 
-/* AGE */
 function setAge() {
   playBeep();
 
@@ -243,7 +247,6 @@ function setAge() {
   `;
 }
 
-/* FRIEND */
 function friend(ok) {
   playBeep();
 
@@ -254,7 +257,6 @@ function friend(ok) {
   `;
 }
 
-/* COLOR */
 function color() {
   playBeep();
 
@@ -280,7 +282,6 @@ function setColor(c) {
   `;
 }
 
-/* CAKE */
 function cake() {
   speaker.innerText = "Partygoob";
   char.src = "cake.png";
@@ -297,7 +298,6 @@ function cake() {
   `;
 }
 
-/* ENDINGS */
 function party() {
   playBeep();
 
@@ -333,7 +333,6 @@ function ban() {
   `;
 }
 
-/* COW */
 function cow() {
   playBeep();
 
@@ -354,4 +353,3 @@ function banYes() {
 
 </body>
 </html>
-
