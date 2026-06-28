@@ -3,48 +3,64 @@
 <head>
 <title>Birthday Game</title>
 
+<!-- 🎮 PIXEL FONT -->
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
 <style>
 body {
-  font-family: Comic Sans MS;
+  font-family: 'Press Start 2P', monospace;
   text-align: center;
-  background: skyblue;
-  transition: 1s;
+  background: #87ceeb;
+  margin: 0;
 }
 
-/* 🎮 GAME BOX (NOW SCROLLABLE) */
+/* 🧾 FLASHCARD STYLE */
 #box {
   background: white;
   width: 700px;
   margin: 40px auto;
-  padding: 20px;
-  border-radius: 20px;
-  box-shadow: 0 0 20px black;
+  padding: 25px;
+  border-radius: 10px;
+  border: 4px solid black;
+  box-shadow: 6px 6px 0px black;
 
   max-height: 80vh;
   overflow-y: auto;
 }
 
 img {
-  width: 220px;
+  width: 200px;
   display: block;
   margin: auto;
+  image-rendering: pixelated;
 }
 
 button {
-  font-size: 18px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 12px;
   margin: 8px;
   padding: 10px;
   cursor: pointer;
+  border: 3px solid black;
+  background: white;
+  box-shadow: 3px 3px 0px black;
+}
+
+button:active {
+  transform: translate(2px,2px);
+  box-shadow: 1px 1px 0px black;
 }
 
 input {
-  font-size: 18px;
-  padding: 10px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 12px;
+  padding: 8px;
+  border: 3px solid black;
 }
 
 /* shake effect */
 .shake {
-  animation: shake 0.3s infinite;
+  animation: shake 0.2s infinite;
 }
 
 @keyframes shake {
@@ -53,7 +69,7 @@ input {
   100% { transform: translate(2px,2px); }
 }
 
-/* 💰 ENDING BAR ONLY */
+/* 💰 bottom bar */
 .robuxBar {
   position: fixed;
   bottom: 0;
@@ -61,7 +77,7 @@ input {
   width: 100%;
   background: black;
   color: white;
-  font-size: 18px;
+  font-size: 10px;
   padding: 10px;
   text-align: center;
 }
@@ -88,6 +104,14 @@ let text = document.getElementById("text");
 let choices = document.getElementById("choices");
 let speaker = document.getElementById("speaker");
 
+/* 🔊 SOUND */
+let beep = new Audio("https://www.myinstants.com/media/sounds/button.mp3");
+
+function playSound(){
+  beep.currentTime = 0;
+  beep.play();
+}
+
 let playerName = "";
 let age = "";
 
@@ -99,11 +123,11 @@ function start() {
   speaker.innerText = "Gubby";
   char.src = "gubby.png";
 
-  text.innerHTML =
-  "HAPPY BIRTHDAY PERSON!<br><br>" +
-  "my name is Itzmegubbehxd!<br>" +
-  "and I am your host or whatever idfk<br><br>" +
-  "what's your name?";
+  say(
+  "HAPPY BIRTHDAY PERSON!\n\n" +
+  "my name is Itzmegubbehxd!\n" +
+  "what's your name?"
+  );
 
   choices.innerHTML = `
     <input id="name">
@@ -111,15 +135,22 @@ function start() {
   `;
 }
 
+/* 🔊 TEXT FUNCTION */
+function say(t){
+  playSound();
+  text.innerText = t;
+}
+
 /* ---------------- NAME ---------------- */
 
 function setName() {
   playerName = document.getElementById("name").value || "you";
 
-  text.innerHTML =
-  "oh wow! " + playerName + "<br>" +
-  "that's a shitty fuck name!<br><br>" +
-  "are you excited????";
+  say(
+  "oh wow! " + playerName + "\n" +
+  "thats a shitty fuck name!\n\n" +
+  "are you excited?"
+  );
 
   choices.innerHTML = `
     <button onclick="go()">yes</button>
@@ -141,9 +172,7 @@ function go() {
   speaker.innerText = "Partygoob";
   char.src = "partygoob.png";
 
-  text.innerHTML =
-  "HI IM PARTYGOOB!!!<br><br>" +
-  "how old r u turning?";
+  say("HI IM PARTYGOOB!!!\nhow old r u turning?");
 
   choices.innerHTML = `
     <input id="age">
@@ -156,10 +185,11 @@ function go() {
 function setAge() {
   age = document.getElementById("age").value || "?";
 
-  text.innerHTML =
-  "oh wow! you're becoming old!<br><br>" +
-  "guess what that means...<br><br>" +
-  "you will have to have a j-j... j-... sorry I can't say it ;-;";
+  say(
+  "oh wow!\nyou're becoming old!\n\n" +
+  "guess what that means...\n\n" +
+  "your gonna have to get a j--- fuck.. i cant say it... anyways wanna be friends!"
+  );
 
   choices.innerHTML = `
     <button onclick="friend(true)">yes</button>
@@ -170,11 +200,7 @@ function setAge() {
 /* ---------------- FRIEND ---------------- */
 
 function friend(ok) {
-  if(ok){
-    text.innerHTML = "YAY!! BEST FRIENDS!!!!";
-  } else {
-    text.innerHTML = "fine. we're friends anyway.";
-  }
+  say(ok ? "YAY!! BEST FRIENDS!!!!" : "fuck you we're friends anyway.");
 
   choices.innerHTML = `
     <button onclick="color()">continue</button>
@@ -184,7 +210,7 @@ function friend(ok) {
 /* ---------------- COLOR ---------------- */
 
 function color() {
-  text.innerHTML = "whats your favourite color?";
+  say("whats your favourite color?");
 
   choices.innerHTML = `
     <button onclick="setColor('red')">red</button>
@@ -197,8 +223,7 @@ function color() {
 function setColor(c) {
   document.body.style.background = c;
 
-  text.innerHTML =
-  "wow what a color! i love it!";
+  say("wow such a gay color! lIKE Me :3...wink");
 
   choices.innerHTML = `
     <button onclick="cake()">continue</button>
@@ -211,10 +236,11 @@ function cake() {
   speaker.innerText = "Partygoob";
   char.src = "cake.png";
 
-  text.innerHTML =
-  "since we're best friends now we should party!!!!!!!<br><br>" +
-  "heres a cake 🎂<br><br>" +
-  "would u like to party?";
+  say(
+  "we should party!!!!!!!\n\n" +
+  "heres a cake 🎂\n\n" +
+  "party?"
+  );
 
   choices.innerHTML = `
     <button onclick="party()">yes</button>
@@ -226,7 +252,6 @@ function cake() {
 
 function party() {
   document.body.style.background = "pink";
-  char.src = "cake.png";
 
   document.body.innerHTML =
   "<h1>🎉 PARTY TIME 🎉</h1>" +
@@ -236,12 +261,9 @@ function party() {
 
 function noParty() {
   document.body.classList.add("shake");
+  say("oh... ok...");
 
-  text.innerHTML = "oh... ok...";
-
-  setTimeout(() => {
-    ban();
-  }, 1000);
+  setTimeout(() => ban(), 1000);
 }
 
 function ban() {
@@ -249,8 +271,7 @@ function ban() {
   speaker.innerText = "BAN HAMMER";
   char.src = "banhammer.png";
 
-  text.innerHTML =
-  "⚠ BAN HAMMER APPEARS ⚠";
+  say("⚠ BAN HAMMER APPEARS ⚠");
 
   choices.innerHTML = `
     <button onclick="banYes()">ban partygoob</button>
@@ -262,13 +283,13 @@ function ban() {
 function cow() {
   document.body.innerHTML =
   "<h1>🐄 wow your a cow now</h1>" +
-  "<img src='fatcow.png' style='width:300px'>" +
+  "<img src='fatcow.png'>" +
   "<div class='robuxBar'>ok make a gamepass for 1k robux now!</div>";
 }
 
 function banYes() {
   document.body.innerHTML =
-  "<h1>💥 Partygoob got BONKED 💥</h1>" +
+  "<h1>💥 Partygoob got BONKED XD 💥</h1>" +
   "<div class='robuxBar'>ok make a gamepass for 1k robux now!</div>";
 }
 </script>
